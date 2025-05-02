@@ -1,0 +1,147 @@
+------ kernel boot ------  core 0
+build time (kernel.c) Mar 18 2025 10:01:59
+phys mem: 00000000 -- 3f000000
+	 kernel: 00080000 -- 00893000
+	 paging mem: 00893000 -- 3b900000
+		 952M 243821 pages
+	 malloc mem: 3b900000 -- 3c100000
+		 8M
+	 reserved for framebuffer: 3c100000 -- 3f000000
+[0.797] usbdev0-1:Device ven409-55aa, dev9-0-0 found [from USBDeviceInitialize()]
+[0.801] usbdev0-1:Interface int9-0-0 found
+[0.803] usbdev USBDeviceFactoryGetDevice:Using device/interface int9-0-0
+[1.662] usbdev0-1:Device ven627-1 found [from USBDeviceInitialize()]
+[1.665] usbdev0-1:Interface int3-1-1 found
+[1.667] usbdev USBDeviceFactoryGetDevice:Using device/interface int3-1-1
+[1.800] USPiInitialize():1391 ms
+kernel.c:193 entering init
+Kernel process started at EL 1, pid 1
+bio.c:199 disk_initialize, drv 3
+vm.c:619 demand paging at user va 0x7ffffa0, elr 0x12c
+User process entry
+open console, fd 3 ....
+sh: To create dev/procfs entries ....OK
+ ____ _______   _________    ________    _________
+|    |   \   \ /   /  _  \   \_____  \  /   _____/
+|    |   /\   Y   /  /_\  \   /   |   \ \_____  \ 
+|    |  /  \     /    |    \ /    |    \/        \
+|______/    \___/\____|__  / \_______  /_______  /
+                         \/          \/        \/
+sh: found from /initrc.txt. load cmds.
+$ doom
+/proc/dispinfo: width 640 height 400 vwidth 640 vheight 800 pitch 2560 depth 32
+                           Doom Generic 0.1
+Z_Init: Init zone memory allocation daemon. 
+zone memory: 0x4a7520, 600000 allocated for zone
+Using ./doomconfig-3/ for configuration and saves
+V_Init: allocate screens.
+M_LoadDefaults: Load system defaults.
+saving config in ./doomconfig-3/default.cfg
+-iwad not specified, trying a few iwad names
+Trying IWAD file:/d/doom2.wad
+Trying IWAD file:/d/plutonia.wad
+Trying IWAD file:/d/tnt.wad
+Trying IWAD file:/d/doom.wad
+W_Init: Init WADfiles.
+ adding /d/doom.wad
+Using ./doomconfig-3//.savegame/ for savegames
+===========================================================================
+                            DOOM Registered
+===========================================================================
+ Doom Generic is free software, covered by the GNU General Public
+ License.  There is NO warranty; not even for MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE. You are welcome to change and distribute
+ copies under certain conditions. See the source for more information.
+===========================================================================
+I_Init: Setting up machine state.
+M_Init: Init miscellaneous info.
+R_Init: Init DOOM refresh daemon - ..........................
+P_Init: Init Playloop state.
+S_Init: Setting up sound.
+D_CheckNetGame: Checking network game status.
+startskill 2  deathmatch: 0  startmap: 1  startepisode: 1
+player 1 of 1 (1 nodes)
+Emulating the behavior of the 'Doom 1.9' executable.
+HU_Init: Setting up heads up display.
+ST_Init: Init status bar.
+n
+SDL_SetWindowTitle: window title set to [DOOM Registered]
+I_InitGraphics: framebuffer: x_res: 640, y_res: 400, x_virtual: 640, y_virtual: 400, bpp: 32
+I_InitGraphics: framebuffer: RGBA: 8888, red_off: 16, green_off: 8, blue_off: 0, transp_off: 24
+I_InitGraphics: DOOM screen size: w x h: 320 x 200
+I_InitGraphics: Auto-scaling factor: 2
+QEMU: Terminated
+student@uva-os-vm:~/p1-kernel-lab5$ ./run-rpi3qemu.sh 
+Using QEMU: /home/student/qemu-9.1.1/build/qemu-system-aarch64
+------ kernel boot ------  core 0
+build time (kernel.c) Mar 18 2025 10:01:59
+phys mem: 00000000 -- 3f000000
+	 kernel: 00080000 -- 00893000
+	 paging mem: 00893000 -- 3b900000
+		 952M 243821 pages
+	 malloc mem: 3b900000 -- 3c100000
+		 8M
+	 reserved for framebuffer: 3c100000 -- 3f000000
+[0.845] usbdev0-1:Device ven409-55aa, dev9-0-0 found [from USBDeviceInitialize()]
+[0.850] usbdev0-1:Interface int9-0-0 found
+[0.854] usbdev USBDeviceFactoryGetDevice:Using device/interface int9-0-0
+[1.510] usbdev0-1:Device ven627-1 found [from USBDeviceInitialize()]
+[1.513] usbdev0-1:Interface int3-1-1 found
+[1.514] usbdev USBDeviceFactoryGetDevice:Using device/interface int3-1-1
+[1.651] USPiInitialize():1149 ms
+kernel.c:193 entering init
+Kernel process started at EL 1, pid 1
+bio.c:199 disk_initialize, drv 3
+vm.c:619 demand paging at user va 0x7ffffa0, elr 0x12c
+User process entry
+open console, fd 3 ....
+sh: To create dev/procfs entries ....OK
+ ____ _______   _________    ________    _________
+|    |   \   \ /   /  _  \   \_____  \  /   _____/
+|    |   /\   Y   /  /_\  \   /   |   \ \_____  \ 
+|    |  /  \     /    |    \ /    |    \/        \
+|______/    \___/\____|__  / \_______  /_______  /
+                         \/          \/        \/
+sh: found from /initrc.txt. load cmds.
+$ doom
+/proc/dispinfo: width 640 height 400 vwidth 640 vheight 800 pitch 2560 depth 32
+                           Doom Generic 0.1
+Z_Init: Init zone memory allocation daemon. 
+zone memory: 0x4a7520, 600000 allocated for zone
+Using ./doomconfig-3/ for configuration and saves
+V_Init: allocate screens.
+M_LoadDefaults: Load system defaults.
+saving config in ./doomconfig-3/default.cfg
+-iwad not specified, trying a few iwad names
+Trying IWAD file:/d/doom2.wad
+Trying IWAD file:/d/plutonia.wad
+Trying IWAD file:/d/tnt.wad
+Trying IWAD file:/d/doom.wad
+W_Init: Init WADfiles.
+ adding /d/doom.wad
+Using ./doomconfig-3//.savegame/ for savegames
+===========================================================================
+                            DOOM Registered
+===========================================================================
+ Doom Generic is free software, covered by the GNU General Public
+ License.  There is NO warranty; not even for MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE. You are welcome to change and distribute
+ copies under certain conditions. See the source for more information.
+===========================================================================
+I_Init: Setting up machine state.
+M_Init: Init miscellaneous info.
+R_Init: Init DOOM refresh daemon - ..........................
+P_Init: Init Playloop state.
+S_Init: Setting up sound.
+D_CheckNetGame: Checking network game status.
+startskill 2  deathmatch: 0  startmap: 1  startepisode: 1
+player 1 of 1 (1 nodes)
+Emulating the behavior of the 'Doom 1.9' executable.
+HU_Init: Setting up heads up display.
+ST_Init: Init status bar.
+SDL_SetWindowTitle: window title set to [DOOM Registered]
+I_InitGraphics: framebuffer: x_res: 640, y_res: 400, x_virtual: 640, y_virtual: 400, bpp: 32
+I_InitGraphics: framebuffer: RGBA: 8888, red_off: 16, green_off: 8, blue_off: 0, transp_off: 24
+I_InitGraphics: DOOM screen size: w x h: 320 x 200
+I_InitGraphics: Auto-scaling factor: 2
+QEMU: Terminated

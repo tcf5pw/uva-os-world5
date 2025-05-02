@@ -1,0 +1,20 @@
++ LD -> nes
+aarch64-linux-gnu-ld: fce.o: in function `fce_init':
+/home/xzl/workspace-p1-kernel/p1-kernel-lab5/usr/LiteNES/fce.c:78: undefined reference to `cpu_init'
+aarch64-linux-gnu-ld: /home/xzl/workspace-p1-kernel/p1-kernel-lab5/usr/LiteNES/fce.c:81: undefined reference to `cpu_reset'
+aarch64-linux-gnu-ld: fce.o: in function `fce_run':
+/home/xzl/workspace-p1-kernel/p1-kernel-lab5/usr/LiteNES/fce.c:95: undefined reference to `cpu_run'
+aarch64-linux-gnu-ld: memory.o: in function `memory_readb':
+/home/xzl/workspace-p1-kernel/p1-kernel-lab5/usr/LiteNES/memory.c:12: undefined reference to `cpu_ram_read'
+aarch64-linux-gnu-ld: /home/xzl/workspace-p1-kernel/p1-kernel-lab5/usr/LiteNES/memory.c:9: undefined reference to `cpu_ram_read'
+aarch64-linux-gnu-ld: memory.o: in function `memory_writeb':
+/home/xzl/workspace-p1-kernel/p1-kernel-lab5/usr/LiteNES/memory.c:31: undefined reference to `cpu_ram_write'
+aarch64-linux-gnu-ld: /home/xzl/workspace-p1-kernel/p1-kernel-lab5/usr/LiteNES/memory.c:23: undefined reference to `cpu_ram_read'
+aarch64-linux-gnu-ld: /home/xzl/workspace-p1-kernel/p1-kernel-lab5/usr/LiteNES/memory.c:28: undefined reference to `cpu_ram_write'
+aarch64-linux-gnu-ld: ppu.o: in function `ppu_cycle':
+/home/xzl/workspace-p1-kernel/p1-kernel-lab5/usr/LiteNES/ppu.c:250: undefined reference to `cpu_clock'
+aarch64-linux-gnu-ld: /home/xzl/workspace-p1-kernel/p1-kernel-lab5/usr/LiteNES/ppu.c:266: undefined reference to `cpu_interrupt'
+make[1]: *** [Makefile:26: nes] Error 1
+make[1]: Leaving directory '/home/xzl/workspace-p1-kernel/p1-kernel-lab5/usr/LiteNES'
+make: *** [Makefile:136: build/nes] Error 2
+make: *** Waiting for unfinished jobs....

@@ -1,0 +1,38 @@
+// dot -Tpng quests.dot -o quests.png
+digraph QuestDependencies {
+    // Define node styles
+    node [shape=box, style=filled, color=lightblue];
+
+    // Define the edges based on the relations
+    quest1 -> quest2;
+    quest1 -> quest3;
+    quest1 -> quest5;
+    quest2 -> quest4    [style=dashed, label="(only nonblocking IO needed)"];
+    quest3 -> quest4    [label="large game files"];
+    quest5 -> quest6    [label="multiple foreground apps"];
+
+    // Define nodes with updated labels
+    quest1 [label="Quest1: Build\nBuild the OS and run to the shell prompt\nCredits: 10", fontsize=10];
+    quest2 [label="Quest2*: Music Player\nImplement a music player with visual effects and key controls\nCredits: 30"];
+    quest3 [label="Quest3: FAT and SD Card\nBring up the FAT filesystem and SD card driver\nCredits: 30"];
+    quest4 [label="Quest4: DOOM\nPort and run DOOM on the OS\nCredits: 30"];
+    quest5 [label="Quest5: Desktop\nDevelop a desktop environment with multiple app support\nCredits: 40"];
+    quest6 [label="Quest6: Multicore\nAdd multicore support to the kernel\nCredits: 50"];
+
+    // Set graph layout
+    rankdir=LR; // Left to Right layout
+
+    // Subgraph for the legend
+    // subgraph cluster_legend {
+    //     label = "Legend";
+    //     style = dashed; // Optional style for the legend box
+    //     color = grey;
+
+    //     // Legend nodes
+    //     dashed_edge [label="Dashed Line: Special requirements (e.g., RPI3 only)", shape=plaintext];
+    //     dotted_edge [label="Standard Line: Common requirements", shape=plaintext];
+
+    //     // Arrange the legend nodes
+    //     dashed_edge -> dotted_edge [style=dashed];
+    // }
+}

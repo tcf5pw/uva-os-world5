@@ -1,0 +1,13 @@
+$ usertests clone
+usertests starting
+countfree starts. brk is 0x15000
+sys.c:108 sys_sbrk failed: requested brk 3ff000 too large. too close to sp 3fff10
+free0 1001
+test clone: threadtth hthrhrerereeeaadd  avd ahehlre   hve1aerlre0 1e v
+a 10val4l  
+1021
+03
+OK
+countfree starts. brk is 0x15000
+sys.c:108 sys_sbrk failed: requested brk 3ff000 too large. too close to sp 3fff10
+ALL TESTS PASSED

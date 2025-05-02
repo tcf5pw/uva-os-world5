@@ -1,0 +1,7 @@
+$ nplayer sample-10s.ogg
+ogg file 112 KB, malloc ok
+vm.c:619 demand paging at user va 0x7ffec90, elr 0x66f8
+vm.c:619 demand paging at user va 0x3fffff0, elr 0xabb8
+sched.c:847 childregs->sp 3fffff0
+Playing /d/sample.ogg(freq = 44100, channels = 2)...
+vm.c:619 demand paging at user va 0x3ffef70, elr 0x61dc
