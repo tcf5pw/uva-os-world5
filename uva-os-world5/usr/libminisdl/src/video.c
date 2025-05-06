@@ -26,10 +26,9 @@ SDL_Window *SDL_CreateWindow(const char *title,
     int n, fb;
     char isfb = (flags & SDL_WINDOW_HWSURFACE)?1:0; // direct or indirect?
 
-    if ((fb = open("/dev/fb/", O_RDWR)) <= 0) /* STUDENT_TODO: replace this */
-        return 0;
-
     if (isfb) {
+        if ((fb = open("/dev/fb", O_RDWR)) <= 0) /* STUDENT_TODO: replace this */
+            return 0;
         // ask for a vframebuf that scales the window (viewport) by 2x
         if (config_fbctl(w, h,     // desired viewport ("phys")
                         w, h * 2, // two fbs, each contig, each can be written to /dev/fb in a write()
@@ -37,8 +36,13 @@ SDL_Window *SDL_CreateWindow(const char *title,
             return 0;
         }
     } else {
-         
+        if ((fb = open("/dev/fb0", O_RDWR)) <= 0) /* STUDENT_TODO: replace this */
+            return 0;
         /* STUDENT_TODO: your code here */
+        int transparency = (flags & SDL_TRANSPARENCY) ? 80 : 100;
+        if (config_fbctl0(FB0_CMD_INIT, x, y, w, h, ZORDER_TOP, transparency) != 0) {
+            return 0;
+        }
     }
 
     SDL_Window *win = malloc(sizeof(SDL_Window)); assert(win);

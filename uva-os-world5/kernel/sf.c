@@ -307,6 +307,9 @@ static int sf_cycle_focus(void) {
     top = slist_tail_entry(&sflist, struct sf_struct, list);
      
     /* STUDENT_TODO: your code here */
+    slist_remove(&sflist, &bot->list);
+    slist_append(&sflist, &bot->list);
+    bot->dirty = 1;
     wakeup(&sflist); 
     ret=0; 
 out: 
@@ -500,6 +503,12 @@ static int sf_composite(void) {
                 // mark this sf as dirty (need redrawn)
                  
                 /* STUDENT_TODO: your code here */
+                for (int i = 0; i < n_redrawn; i++) {
+                    if (do_regions_intersect(&sf->r, &redrawn_regions[i])) {
+                        sf->dirty = 1;
+                        break;
+                    }
+                }
             }
             if (!sf->dirty)
                 continue;
@@ -516,7 +525,7 @@ static int sf_composite(void) {
                 if (sf->transparency!=100) { // sf transparent
                     // read back the fb row, mix, and write back
                     //what if no invalidation?
-                    __asm_invalidate_dcache_range(0, 0); /* STUDENT_TODO: replace this */
+                    __asm_invalidate_dcache_range(p0, p0 + ww * PIXELSIZE); /* STUDENT_TODO: replace this */
                     
                     // transparent effect 
                     int t1=sf->transparency, t0=100-t1;
@@ -526,6 +535,7 @@ static int sf_composite(void) {
                         // UVA-OS students: optional features
                          
                         /* STUDENT_TODO: your code here */
+                        px0[k] = ((px0[k] * t0) + (px1[k] * t1)) / 100;
                     }
                 } else if ((unsigned long)p0%8==0 && (unsigned long)p1%8==0 && (sf->r.w*PIXELSIZE)%8==0)
                     memcpy_aligned(p0, p1, ww*PIXELSIZE); // fast path: opaque sf, aligned
@@ -535,6 +545,7 @@ static int sf_composite(void) {
             }
             redrawn_regions[n_redrawn++] = sf->r; cnt++; 
             /* STUDENT_TODO: your code here */
+            sf->dirty = 0;
         }
     }
 
@@ -572,6 +583,11 @@ static void sf_task(int arg) {
         // sleep on sflist; once notified to wake up, call sf_composite() 
          
         /* STUDENT_TODO: your code here */
+        n = sf_composite();
+
+        if (n == 0) {
+            sleep(&sflist, &sflock);
+        }
     }
     release(&sflock); // never reach here?
 }
@@ -631,6 +647,11 @@ int devfb0_write(int user_src, uint64 src, int off, int n, void *content) {
     // copy user writes to sf->buf, note the offset
      
     /* STUDENT_TODO: your code here */
+    if (either_copyin((void*)(uint64)sf->buf + off, user_src, src, n) == -1) {
+        ret = -1;
+        goto out;
+    }
+    sf->dirty = 1;
     
     /* Current design: wakes up flinger for evrey write(). This could be
     expensive, e.g. if a task write to /dev/fb0 in small batches. However, tasks
@@ -642,6 +663,7 @@ int devfb0_write(int user_src, uint64 src, int off, int n, void *content) {
 
     // notify flinger
     /* STUDENT_TODO: your code here */
+    wakeup(&sflist);
 out:     
     release(&sflock); 
     return ret; 
@@ -775,5 +797,13 @@ int start_sf(void) {
 
      
     /* STUDENT_TODO: your code here */
+    // reset_fb();
+
+    // Start the surface flinger task
+    int res = copy_process(PF_KTHREAD, (unsigned long)&sf_task, 0, "[sf]");
+    // if (res < 0) {
+    //     return -1;
+    // }
+    
     return 0; 
 }
