@@ -38,7 +38,7 @@
 #define MAX_VOLUME 128
 
 // do visualization on screen?  quest: make off initially
-#define HAS_VISUAL  0
+#define HAS_VISUAL  1
 
 stb_vorbis *v = NULL;
 stb_vorbis_info info = {};
@@ -77,6 +77,7 @@ static void visualeffect(int16_t *stream, int samples) {
   // for accessing "stream"
   // what if no lock? what would happen? (drawLine may acccess invalid buf addr
   /* STUDENT_TODO: your code here */
+  spinlock_lock(&sslock);
   for (i = 0; i < samples; i ++) {
     float multipler = cos(3.14*2*i/samples); 
     int x = i * W / samples;
@@ -87,6 +88,7 @@ static void visualeffect(int16_t *stream, int samples) {
     color ++; color &= 0xffffff;
   }
   /* STUDENT_TODO: your code here */
+  spinlock_unlock(&sslock);
   SDL_RenderPresent(renderer);
 #endif  
 }

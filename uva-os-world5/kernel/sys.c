@@ -78,7 +78,7 @@ long sys_clone(unsigned long flags, unsigned long userstack,
         return -1;
     }
 
-	return copy_process(PF_UTHREAD, (unsigned long)userstack, 0, 0); /* STUDENT_TODO: replace this */
+	return copy_process(PF_UTHREAD, userstack, 0, 0); /* STUDENT_TODO: replace this */
 }
 
 int sys_exit(int c){

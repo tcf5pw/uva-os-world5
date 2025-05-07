@@ -26,9 +26,10 @@ SDL_Window *SDL_CreateWindow(const char *title,
     int n, fb;
     char isfb = (flags & SDL_WINDOW_HWSURFACE)?1:0; // direct or indirect?
 
+    if ((fb = open("/dev/fb/", O_RDWR)) <= 0) /* STUDENT_TODO: replace this */
+        return 0;
+
     if (isfb) {
-        if ((fb = open("/dev/fb", O_RDWR)) <= 0) /* STUDENT_TODO: replace this */
-            return 0;
         // ask for a vframebuf that scales the window (viewport) by 2x
         if (config_fbctl(w, h,     // desired viewport ("phys")
                         w, h * 2, // two fbs, each contig, each can be written to /dev/fb in a write()
@@ -36,13 +37,8 @@ SDL_Window *SDL_CreateWindow(const char *title,
             return 0;
         }
     } else {
-        if ((fb = open("/dev/fb0", O_RDWR)) <= 0) /* STUDENT_TODO: replace this */
-            return 0;
+         
         /* STUDENT_TODO: your code here */
-        int transparency = (flags & SDL_TRANSPARENCY) ? 80 : 100;
-        if (config_fbctl0(FB0_CMD_INIT, x, y, w, h, ZORDER_TOP, transparency) != 0) {
-            return 0;
-        }
     }
 
     SDL_Window *win = malloc(sizeof(SDL_Window)); assert(win);
@@ -127,6 +123,8 @@ static inline void setpixel(char *buf, int x, int y, int pit, PIXEL p) {
     assert(x >= 0 && y >= 0);
      
     /* STUDENT_TODO: your code here */
+    char *pixel_addr = buf + y * pit + x * PIXELSIZE;
+    *(PIXEL *)pixel_addr = p;
 }
 
 static inline PIXEL getpixel(char *buf, int x, int y, int pit) {
@@ -146,7 +144,7 @@ int SDL_RenderClear(SDL_Renderer *rdr) {
     PIXEL p = rgba_to_pixel(rdr->c.r, rdr->c.g, rdr->c.b, rdr->c.a);    
     for (int y = 0; y < SCREEN_HEIGHT; y++)
         for (int x = 0; x < SCREEN_WIDTH; x++)
-            setpixel(0, 0, 0, 0, 0); /* STUDENT_TODO: replace this */
+            setpixel(tgt, x, y, pitch, p); /* STUDENT_TODO: replace this */
     return 0;
 }
 
@@ -286,7 +284,7 @@ int SDL_RenderDrawLine(SDL_Renderer * rdr,
     int yy1=y1, yy2=y2; 
     if (y1>y2) {yy1=y2;yy2=y1;}
     for (int y=yy1; y<yy2; y++) {            
-        setpixel(0,0,0,0,0); /* STUDENT_TODO: replace this */
+        setpixel(tgt, x1, y, pitch, p); /* STUDENT_TODO: replace this */
     }
 
     return 0; 
