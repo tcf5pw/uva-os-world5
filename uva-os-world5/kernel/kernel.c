@@ -149,6 +149,7 @@ void kernel_main() {
 	ramdisk_init(); 	// ramdisk - blk dev1
 	sys_timer_init(); 		// kernel timer: delay, timekeeping...
 	/* STUDENT_TODO: your code here */
+	sd_init();
 	enable_interrupt_controller(0/*coreid*/);
 	enable_irq();
 	

@@ -762,7 +762,7 @@ int move_to_user_mode(unsigned long start, unsigned long size, unsigned long pc)
     // be run from main().
     fsinit(ROOTDEV);
 #ifdef CONFIG_FAT        
-	/* STUDENT_TODO: your code here */
+    fsinit(DEV_SD0);  /* STUDENT_TODO: your code here */
 #endif    
 	
 	return 0;
@@ -815,7 +815,7 @@ int copy_process(unsigned long clone_flags, unsigned long fn, unsigned long arg,
             p->mm = cur->mm; /* STUDENT_TODO: replace this */
             __atomic_add_fetch(&p->mm->ref, 1, __ATOMIC_SEQ_CST);
             childregs->sp = arg; /* STUDENT_TODO: replace this */
-        W("childregs->sp %lx", childregs->sp);
+            W("childregs->sp %lx", childregs->sp);
             // same pc 
         } else {	// fork a "process", having a mm of its own
             struct mm_struct *mm = alloc_mm();
