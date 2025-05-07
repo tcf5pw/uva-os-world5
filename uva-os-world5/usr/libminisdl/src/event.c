@@ -22,7 +22,7 @@ int SDL_PollEvent(SDL_Event *ev, int flags) {
     
   if (!eventfd) {
     eventfd = open((flags & SDL_EV_SW) ? "/dev/events0":"/dev/events",
-        0); /* STUDENT_TODO: replace this */
+        O_RDONLY | O_NONBLOCK); /* STUDENT_TODO: replace this */
     assert(eventfd>0); 
     blocking = 0; 
   }

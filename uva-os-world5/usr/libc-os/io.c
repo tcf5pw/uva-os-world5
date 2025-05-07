@@ -105,7 +105,21 @@ int read_kb_event(int events, int *evtype, unsigned int *scancode) {
 
      
     /* STUDENT_TODO: your code here */
+    n = read(events, buf, LINESIZE);
+    if (n <= 0) return -1;
+    
+    s = buf;
+    if (strncmp(s, "kd ", 3) == 0) {
+        *evtype = KEYDOWN;
+        s += 3;
+    } else if (strncmp(s, "ku ", 3) == 0) {
+        *evtype = KEYUP;
+        s += 3;
+    } else {
+        return -1;
+    }
 
+    *scancode = strtol(s, NULL, 16);
     return 0; 
 }
 

@@ -51,6 +51,10 @@ int kb_read(int user_dst, uint64 dst, int off, int n, char blocking, void *conte
         // wait until interrupt handler has put some
         // input into cons.buffer.
         while (the_kb.r == the_kb.w) {
+            if (!blocking) {
+                release(&the_kb.lock);
+                return -1;
+            }
             if (killed(myproc())) {
                 release(&the_kb.lock);
                 return -1;

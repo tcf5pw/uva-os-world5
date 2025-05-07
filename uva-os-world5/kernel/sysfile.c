@@ -504,7 +504,7 @@ prepfile:
   f->readable = !(omode & O_WRONLY);
   f->writable = (omode & O_WRONLY) || (omode & O_RDWR);
   if (ip->type == T_DEVICE)
-    f->nonblocking = 0; /* STUDENT_TODO: replace this */
+    f->nonblocking = (omode & O_NONBLOCK) ? 1 : 0; /* STUDENT_TODO: replace this */
 
   if((omode & O_TRUNC) && ip->type == T_FILE){
     itrunc(ip);  // TODO impl for fat

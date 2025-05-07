@@ -120,6 +120,10 @@ void FillAudio(void *userdata, uint8_t *stream, int len) {
     int samples = samples_per_channel * info.channels;
     nbyte = samples * sizeof(int16_t);
     AdjustVolume((int16_t *)stream, samples);
+
+    spinlock_lock(&sslock);
+    memcpy(stream_save, stream, nbyte);
+    spinlock_unlock(&sslock);
   } else {
     is_end = 1;
   }
@@ -129,9 +133,9 @@ void FillAudio(void *userdata, uint8_t *stream, int len) {
   // make a copy of the current "stream" for visualization 
    
   /* STUDENT_TODO: your code here */
-  spinlock_lock(&sslock);
-  memcpy(stream_save, stream, nbyte);
-  spinlock_unlock(&sslock);
+  // spinlock_lock(&sslock);
+  // memcpy(stream_save, stream, nbyte);
+  // spinlock_unlock(&sslock);
 }
 
 /* Usage
