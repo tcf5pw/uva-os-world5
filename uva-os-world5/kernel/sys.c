@@ -73,8 +73,12 @@ long sys_clone(unsigned long flags, unsigned long userstack,
 	if (flags != CLONE_VM) return -1; 
 	 
 	/* STUDENT_TODO: your code here */
+	// printf("User stack %ld", userstack);
+	if (userstack == 0 || userstack % 16 != 0) {
+        return -1;
+    }
 
-	return copy_process(PF_UTHREAD, 0, 0, 0); /* STUDENT_TODO: replace this */
+	return copy_process(PF_UTHREAD, (unsigned long)userstack, 0, 0); /* STUDENT_TODO: replace this */
 }
 
 int sys_exit(int c){
@@ -232,7 +236,7 @@ void * const sys_call_table[] = {
 	[SYS_mkdir]   sys_mkdir,
 	[SYS_close]   sys_close,	
 	[SYS_lseek]   sys_lseek,	
-	[SYS_clone]   0, /* STUDENT_TODO: replace this */
+	[SYS_clone]   sys_clone, /* STUDENT_TODO: replace this */
 	[SYS_semcreate]   sys_semcreate,
 	[SYS_semfree]   sys_semfree,
 	[SYS_semp]   sys_semp,

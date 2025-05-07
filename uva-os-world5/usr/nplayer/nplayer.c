@@ -38,7 +38,7 @@
 #define MAX_VOLUME 128
 
 // do visualization on screen?  quest: make off initially
-#define HAS_VISUAL  1
+#define HAS_VISUAL  0
 
 stb_vorbis *v = NULL;
 stb_vorbis_info info = {};
@@ -112,7 +112,7 @@ void FillAudio(void *userdata, uint8_t *stream, int len) {
   int nbyte = 0;
   // call vorbis to decode ogg & fill "stream"...
   int samples_per_channel = stb_vorbis_get_samples_short_interleaved(v, info.channels, 
-    0, 0); /* STUDENT_TODO: replace this */
+    (int16_t *)stream, len / sizeof(int16_t)); /* STUDENT_TODO: replace this */
   
   if (samples_per_channel != 0 || len < sizeof(int16_t)) {
     int samples = samples_per_channel * info.channels;
@@ -127,6 +127,9 @@ void FillAudio(void *userdata, uint8_t *stream, int len) {
   // make a copy of the current "stream" for visualization 
    
   /* STUDENT_TODO: your code here */
+  spinlock_lock(&sslock);
+  memcpy(stream_save, stream, nbyte);
+  spinlock_unlock(&sslock);
 }
 
 /* Usage
@@ -170,6 +173,13 @@ int main(int argc, char *argv[]) {
   void * buf = 0; size_t size = 0;
    
   /* STUDENT_TODO: your code here */
+  fseek(fp, 0, SEEK_END);
+  size = ftell(fp);
+  fseek(fp, 0, SEEK_SET);
+  buf = malloc(size);
+  assert(buf);
+  fread(buf, 1, size, fp);
+  fclose(fp);
 
   /* will call stb_vorbis to decode ogg in pieces */
   int error;
@@ -185,6 +195,7 @@ int main(int argc, char *argv[]) {
   spec.format = AUDIO_S16SYS;
   spec.userdata = NULL;
   spec.callback = FillAudio; // will be called by SDL's audio thread
+  printf("main: spec.callback set to %p (FillAudio)\n", spec.callback);
 
   // the segment of audio stream for visualization. must prep before 
   // the SDL audio thread launches
@@ -196,6 +207,7 @@ int main(int argc, char *argv[]) {
   spinlock_unlock(&sslock);
   // sys_semv(sem);
 
+  printf("main: Before SDL_OpenAudio, spec.callback = %p\n", spec.callback);
   SDL_OpenAudio(&spec, NULL);
 
   printf("Playing %s(freq = %d, channels = %d)...\n", path, 
@@ -207,7 +219,7 @@ int main(int argc, char *argv[]) {
 
   while (!is_end) {
     SDL_Event ev;
-    while (0) { /* STUDENT_TODO: replace this */
+    while (SDL_PollEvent(&ev, evflags)) { /* STUDENT_TODO: replace this */
       if (ev.type == SDL_KEYDOWN) {   
         switch (ev.key.keysym.sym) {
           case SDLK_MINUS:  if (volume >= 8) volume -= 8; break;
@@ -218,7 +230,7 @@ int main(int argc, char *argv[]) {
       }
     }
     SDL_Delay(1000 / FPS);
-    visualeffect(0,0); /* STUDENT_TODO: replace this */
+    visualeffect(stream_save, SAMPLES * info.channels); /* STUDENT_TODO: replace this */
   }
 
 cleanup:

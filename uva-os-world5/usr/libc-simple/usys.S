@@ -189,7 +189,7 @@ clone:
     // it must jump to its own entry (unlike fork()), b/c it has a 
     // fresh stack which is empty; it cannot "ret" here --> will crash 
     // below: load the "func", "arg" from the stack, and jump to "func"
-1: ldp x1,x0,[sp],#0 /* STUDENT_TODO: replace this */
+1: ldp x1,x0,[sp],#16 /* STUDENT_TODO: replace this */
     blr x1
     mov x8,#SYS_exit
     svc #0

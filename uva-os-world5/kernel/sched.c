@@ -812,10 +812,10 @@ int copy_process(unsigned long clone_flags, unsigned long fn, unsigned long arg,
         *childregs = *cur_regs; // copy over the entire trapframe
         childregs->regs[0] = 0; // fork()'s return value for child 
         if (clone_flags & PF_UTHREAD) {	// fork a "thread", i.e. sharing an existing mm
-            p->mm = 0; /* STUDENT_TODO: replace this */
+            p->mm = cur->mm; /* STUDENT_TODO: replace this */
             __atomic_add_fetch(&p->mm->ref, 1, __ATOMIC_SEQ_CST);
-            childregs->sp = 0; /* STUDENT_TODO: replace this */
-            W("childregs->sp %lx", childregs->sp);
+            childregs->sp = arg; /* STUDENT_TODO: replace this */
+        W("childregs->sp %lx", childregs->sp);
             // same pc 
         } else {	// fork a "process", having a mm of its own
             struct mm_struct *mm = alloc_mm();
